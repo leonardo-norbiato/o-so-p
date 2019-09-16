@@ -18,12 +18,12 @@ cecho() {
   [ -z "$text" ] && local text="$color$2${code}0m"
   printf "$text\n"
 }
-./etc/postgree-network.sh
 cecho r "Removendo Databases"
 docker stack rm database
 sleep 5
 cecho r "Databases removido"
 sleep 3
+./etc/postgree-network.sh
 cecho g "Instalando Databases"
 docker stack deploy --compose-file=database.yml database
 cecho g "Databases instaladas"

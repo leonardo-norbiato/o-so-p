@@ -24,7 +24,7 @@ cecho() {
 cecho r "removendo rede para database"
 docker network rm netdb
 cecho r "rede removida"
-sleep 3
+sleep 5
 cecho g "Criando rede para database"
 docker network create --scope=swarm --driver=bridge --subnet=172.22.0.0/16 --gateway=172.22.0.1 netdb
 sleep 5
