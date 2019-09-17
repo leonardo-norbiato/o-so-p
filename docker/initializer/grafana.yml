@@ -1,0 +1,37 @@
+version: "3"
+services:
+  grafana:
+    image: grafana/grafana
+    restart: always
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=work123!@#    
+    #environment:
+      #- GF_DATABASE_TYPE=postgres
+      #- GF_DATABASE_HOST=database_postgres:5432
+      #- GF_DATABASE_SSL_MODE=disable
+      #- GF_SESSION_PROVIDER=postgres
+      #- GF_SESSION_PROVIDER_CONFIG=user=grafana password=work123!@# host=database_postgres port=5432 dbname=grafana sslmode=disable
+      #- GF_SERVER_ROUTER_LOGGING=true
+      #- GF_LOG_CONSOLE_FORMAT=json
+      #- GF_LOG_FILTERS=alerting.notifier:debug,alerting.notifier.slack:debug,auth:debug
+      #- GF_AUTH_TOKEN_ROTATION_INTERVAL_MINUTES=2
+    ports:
+      - 3000:3000
+    networks:
+      - grafana-net
+    volumes:
+      -   grafana-volume:/etc/grafana/provisioning/
+
+  # graphite:
+  #   image: graphiteapp/graphite-statsd
+  #   container_name: graphite
+  #   restart: always
+  #   networks:
+  #     - grafana-net
+
+networks:
+  grafana-net:
+
+volumes:
+  grafana-volume:
