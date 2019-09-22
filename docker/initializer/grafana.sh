@@ -24,7 +24,7 @@ cecho y "\nDeseja remover o volume do grafana? Isso excluirá todos os dados sal
 read -p "...aguardando (5 seg): " -t 5 resposta
 if [[ "$resposta" == "y" || "$resposta" == "Y" || "$resposta" == "yes" || "$resposta" == "Yes" || "$resposta" == "Sim" || "$resposta" == "sim" || "$resposta" == "s" || "$resposta" == "S" ]]; then
   sleep 3
-  ./etc/grafana-volume.sh
+  ./etc/grafana/volume.sh
 fi
 cecho r "\n Removendo container Grafana"
 docker stack rm grafana
