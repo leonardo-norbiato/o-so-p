@@ -21,11 +21,12 @@ cecho() {
 #|-----------------------------------------------------|
 #| FIM Função cEcho - colored echo
 #|-----------------------------------------------------|
-cecho r "removendo rede para database"
-docker network rm netdb
-cecho r "rede removida"
+cecho r "removendo volume para database"
+docker volume rm database-volume
+cecho r "volume removida"
 sleep 5
-cecho g "Criando rede para database"
-docker network create --driver=overlay --subnet=10.1.1.0/24 netdb
+cecho g "Criando volume para database"
+docker volume create --name=database-volume
 sleep 5
-cecho g "Rede criada"
+cecho g "volume criada"
+

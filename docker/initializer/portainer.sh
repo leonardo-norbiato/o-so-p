@@ -22,7 +22,7 @@ cecho r "Removendo containers portainer"
 docker stack rm portainer
 sleep 5
 cecho r "Containers removidos"
-sleep 3
+sleep 5
 cecho g "Instalando Portainer"
 docker stack deploy --compose-file=portainer.yml portainer
 cecho g "Portainer instalado"

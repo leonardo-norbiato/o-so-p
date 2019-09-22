@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #|-----------------------------------------------------|
 #| Função cEcho - colored echo
 #|-----------------------------------------------------|
@@ -20,9 +20,16 @@ cecho() {
 }
 cecho r "Removendo Databases"
 docker stack rm database
-sleep 5
+sleep 10
+resposta="n"
+cecho y "\nDeseja remover o volume do database? Isso excluirá todos os dados salvos. (y/n)"
+read -p "...aguardando (5 seg): " -t 5 resposta
+if [[ "$resposta" == "y" || "$resposta" == "Y" || "$resposta" == "yes" || "$resposta" == "Yes" || "$resposta" == "Sim" || "$resposta" == "sim" || "$resposta" == "s" || "$resposta" == "S" ]]; then
+  sleep 3
+  ./etc/database-volume.sh
+fi
 cecho r "Databases removido"
-sleep 3
+sleep 5
 ./etc/postgree-network.sh
 cecho g "Instalando Databases"
 docker stack deploy --compose-file=database.yml database

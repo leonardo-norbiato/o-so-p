@@ -1,27 +1,34 @@
 version: "3"
 services:
+  redis:
+    image: "redis"
+    ports:
+    - 6379:6379
   grafana:
     image: grafana/grafana
-    restart: always
     environment:
-      - GF_SECURITY_ADMIN_USER=admin
-      - GF_SECURITY_ADMIN_PASSWORD=work123!@#    
-    #environment:
-      #- GF_DATABASE_TYPE=postgres
-      #- GF_DATABASE_HOST=database_postgres:5432
-      #- GF_DATABASE_SSL_MODE=disable
-      #- GF_SESSION_PROVIDER=postgres
-      #- GF_SESSION_PROVIDER_CONFIG=user=grafana password=work123!@# host=database_postgres port=5432 dbname=grafana sslmode=disable
-      #- GF_SERVER_ROUTER_LOGGING=true
-      #- GF_LOG_CONSOLE_FORMAT=json
-      #- GF_LOG_FILTERS=alerting.notifier:debug,alerting.notifier.slack:debug,auth:debug
-      #- GF_AUTH_TOKEN_ROTATION_INTERVAL_MINUTES=2
+      GF_DATABASE_HOST: "database_postgres:5432"
+      GF_DATABASE_PASSWORD: work123!@#
+      GF_DATABASE_SSL_MODE: disable
+      GF_DATABASE_TYPE: postgres
+      GF_DATABASE_USER: grafana
+      GF_SECURITY_ADMIN_PASSWORD: work123!@# 
+      GF_SECURITY_SECRET_KEY: "a4805ab98f842e901cd813b889fa3fc5106c9d15"
+      #GF_SERVER_DOMAIN: grafana.docker.local
+      #GF_SERVER_ROOT_URL: https://grafana.docker.local/
+      GF_SESSION_PROVIDER: redis
+      GF_SESSION_PROVIDER_CONFIG: addr=redis:6379,pool_size=100,db=grafana
+      GF_USERS_ALLOW_ORG_CREATE: 'true'
+      GF_USERS_ALLOW_SIGN_UP: 'false'
+      GF_USERS_AUTO_ASSIGN_ORG: 'true'
+      GF_USERS_AUTO_ASSIGN_ORG_ROLE: Editor
     ports:
       - 3000:3000
     networks:
       - grafana-net
+      - netdb
     volumes:
-      -   grafana-volume:/etc/grafana/provisioning/
+      - grafana-volume:/var/lib/grafana
 
   # graphite:
   #   image: graphiteapp/graphite-statsd
@@ -32,6 +39,7 @@ services:
 
 networks:
   grafana-net:
-
+  netdb:
+    external: true
 volumes:
   grafana-volume:

@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #|-----------------------------------------------------|
 #| Função cEcho - colored echo
 #|-----------------------------------------------------|
@@ -19,11 +19,18 @@ cecho() {
   printf "$text\n"
 }
 cecho r "Removendo Grafana"
+resposta="n"
+cecho y "\nDeseja remover o volume do grafana? Isso excluirá todos os dados salvos. (y/n)"
+read -p "...aguardando (5 seg): " -t 5 resposta
+if [[ "$resposta" == "y" || "$resposta" == "Y" || "$resposta" == "yes" || "$resposta" == "Yes" || "$resposta" == "Sim" || "$resposta" == "sim" || "$resposta" == "s" || "$resposta" == "S" ]]; then
+  sleep 3
+  ./etc/grafana-volume.sh
+fi
+cecho r "\n Removendo container Grafana"
 docker stack rm grafana
 sleep 5
 cecho r "grafana removido"
-sleep 3
-./etc/grafana-volume.sh
+sleep 5
 cecho g "Instalando grafana"
 docker stack deploy --compose-file=grafana.yml grafana
 cecho g "grafana instaladas"

@@ -4,11 +4,12 @@ services:
   postgres:
     image: postgres
     environment:
-      POSTGRES_PASSWORD: "work123!@#"
+      POSTGRES_USER: grafana
+      POSTGRES_PASSWORD: work123!@#
     ports:
       - "15432:5432"
     volumes:
-      - /home/familia/Dropbox/Documentos/Projetos/DataCosmos/gitproject/o-so-p/docker/volumes/postgre:/var/lib/postgresql/data 
+      - database-volume:/var/lib/postgresql/data 
     networks:
       - netdb
       
@@ -27,3 +28,6 @@ services:
 networks: 
   netdb:
     external: true
+volumes:
+    database-volume:
+      external: true
